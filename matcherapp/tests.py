@@ -57,4 +57,5 @@ class AnagramRulesTestCase(TestCase):
         # - Individualized tests for other functions in util.py
         # - Most of the things being tested above should test more variations.
         # - Speed test, making sure queries can be handled in a reasonable time.
+        # - More tests for extreme or unusual input values.
         self.assertTrue(True)
