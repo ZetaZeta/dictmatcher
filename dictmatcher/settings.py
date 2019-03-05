@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-e7^-^36mqk!7_um%4$4%!8_0@2qv6@9g*e%qqy%y%r3e_d$4#'
+SECRET_KEY = 'l1iy8*4kx!tc5+nk_-tb(*f%!u+fxx5zaev&&0g@fc2yt)z)-%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -68,13 +68,14 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'matcherapp.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
@@ -124,4 +125,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
