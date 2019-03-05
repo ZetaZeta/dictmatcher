@@ -73,6 +73,7 @@ def load_dict(dict_path):
     print("Dictionary successfully loaded.")
 
 # Gets all single-word anagrams we can make using the entire given string.
+# This is fast and easy with a map.
 def single_word_anagrams(string):
     letters = tuple(sorted(string))
     if letters in ana_map:
@@ -81,12 +82,19 @@ def single_word_anagrams(string):
         return None
 
 # Gets all sorted substrings we can build from the given string.
+# This is a brute-force approach and not necessarily the best way to do this, but it's reasonably
+# fast to implement and fairly intuitive on its own; some of the speed loss can be regained by
+# optimizations elsewhere.
 def all_sorted_substrings(string):
     string = sorted(string)
     return itertools.chain.from_iterable(
         [list(itertools.combinations(string,i)) for i in range(1, len(string) + 1)])
 
 # Gets all sorted substrings from the given string that can produce valid anagrams.
+# This is, unfortunately, one of the code's main chokepoints.
+# While tihs might seem too tiny for a function, I felt doing it this way made the code more clear.
+# No point in caching here, since the all_multiword_anagrams cache covers the same ground
+# and eliminates more redundencies.
 def all_sorted_substring_anagrams(string):
     return filter(lambda x: x in ana_map, all_sorted_substrings(string))
 
@@ -101,14 +109,13 @@ def all_multiword_anagrams(string, is_first_word = True):
         return []
     out = []
     for word in all_sorted_substring_anagrams(string):
-        # If we're doing the first word of an anagram, skip anything that could no longer
-        # appear within the MAX_RETURN_LENGTH.
+        # If we're producing the first word of an anagram, skip anything that could no longer
+        # appear within the MAX_RETURN_LENGTH; this saves us some time.
         if is_first_word and len(out) >= MAX_RETURN_LENGTH:
             if second_letter_sort(out[-1]) < second_letter_sort(word):
-                # Any anagram that starts with this word will never be in our return candidates, so skip it.
                 continue
         
-        # For words that use the remaining string, just add them to the output.
+        # For words that use all the remaining string, just add them to the output.
         if len(word) == len(string):
             out.extend(single_word_anagrams(string))
             continue
@@ -142,6 +149,7 @@ def all_multiword_anagrams(string, is_first_word = True):
 # This assumes no doubles-spaced strings or strings ending with spaces.
 # (Which will alays be true with the given dictionary and current methods.)
 # A string of length < 2 sorts as 0.
+# This function is called a massive number of times and needs to be efficient.
 def second_letter_sort(string):
     if len(string) < 2:
         return 0
