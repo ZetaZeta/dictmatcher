@@ -7,7 +7,7 @@ import os
 import itertools
 
 # This library is used to search for matches quickly.
-# It's written in C and is faster than anything I could reasonably put together in this timeframe.
+# It's written in C++ and is faster than anything I could reasonably put together in this timeframe.
 from suffixtree import SuffixQueryTree
 
 # Maximum number of items a matching can return.
@@ -28,6 +28,7 @@ def get_text_input(request):
         return(form.cleaned_data['input_text'])
 
 # Performs the appropriate matching based on the button pressed, and returns the results.
+# This makes it easier to add new matching methods later.
 def get_matching_by_button(request):
     input_text = get_text_input(request)
     if not input_text:
@@ -50,6 +51,9 @@ def get_matching_by_button(request):
 # keep most dictionary updates reasonable even for a living dictionary - after a process
 # had finished setting the database up, of course.  It would use up a lot of disk space, but
 # disk space is cheap compared to time or memory.
+#
+# Obviously, this comment is a bit longer than most should be in production - detailed comments are good,
+# but they have to be readable in a reasonable timeframe to be useful!
 def load_dict(dict_path):
     global ana_map, tree
     multiword_anagram_cache.clear()
@@ -141,12 +145,20 @@ def second_letter_sort(string):
         return string[2]
     return string[1]
 
+# From spec:
 # takes a user submitted string as input
 # finds all entries in the dictionary for which the input is a valid substring
 # locates the combined set of all valid anagrams that can be made from each of the matching entries
 # orders the valid set of anagrams alphabetically by their second letter
 # returns the anagrams from the sorted anagram set (limit to maximum of 10)
 # returns `None` if no matches were found
+#
+# (When the spec is reasonably short, I feel it's best to quote / summarize / reference it at key points,
+# so anyone who later reads the code will know exactly what it was meant to do.)
+#
+# This could be made a bit more general to support adding new matching methods, but it's a bit unclear
+# how those will work; it seems likely they may not benefit from being structured this way.
+# It's also unclear if the other rules used here will apply to them.
 def substring_anagram_search(string):
     # Find every entry in the dictionary for which the input is a valid substring.
     # Sort them and gather them in a set, since words that are anagrams of each other will
