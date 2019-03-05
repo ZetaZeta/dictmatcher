@@ -1,0 +1,33 @@
+{% load static %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="{% static 'analyzer.css' %}">
+<html>
+    <head>
+        <title>User Data JSON Analyzer</title>
+    </head>
+<body>
+<div class="page-header">
+	<h1>User Data JSON Analyzer</h1>
+</div>
+<div class="description">This webapp interprets data from the <a href="https://randomuser.me/">Random User Generator</a>, turning it into a series of percentage graphs.<br>
+To use it, either upload a JSON file produced by that site, or copy-paste its text into the provided text box, and hit the appropriate submit button.</div>
+<div class="errormessage">{% for error in errorList %}
+    {{ error }}<br>
+{% endfor %}
+</div>
+<form class="input" action="{% url 'graphs:index' %}" method="post">{% csrf_token %}
+  JSON text:<br>
+  <textarea name="json_text"></textarea>
+  <br>
+  <input type="submit" value="Submit">
+</form> 
+
+<form class="input action="{% url 'graphs:index' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+  JSON file:<br>
+  <input type="file" name="json_file"><input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
+

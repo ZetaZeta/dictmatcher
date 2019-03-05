@@ -1,0 +1,31 @@
+{% load static %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="{% static 'analyzer.css' %}">
+<html>
+    <head>
+        <title>User Data JSON Analysis Results</title>
+    </head>
+<body>
+<div class="page-header">
+	<h1>User Data JSON Analysis Results</h1>
+</div>
+
+<script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script>
+
+<div class="container">
+<div class="row">
+{% for chart in chartList %}
+    <span class="col">{{ chart|safe }}
+    </span>
+    {% if forloop.counter|divisibleby:2 %}
+</div>
+<div class="row">
+    {% endif %}
+{% endfor %}
+</div>
+</div>
+
+</body>
+</html>
+

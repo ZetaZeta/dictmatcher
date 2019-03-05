@@ -1,0 +1,32 @@
+{% load static %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="{% static 'analyzer.css' %}">
+<html>
+    <head>
+        <title>Dictionary Matcher</title>
+    </head>
+<body>
+<div class="page-header">
+	<h1>Dictionary Matcher</h1>
+</div>
+<div class="description">This webapp takes a string you input, finds all entries in its dictionary where the string is a valid substring, and matches based on the chosen matching method.<br>
+  Then it orders the resulting output alphabetically by their second letter and returns the first ten results.</div>
+
+<form class="input" action="{% url 'index' %}" method="post">{% csrf_token %}
+  Matching:<br>
+  <input type="text" name="input_text"></textarea>
+  <br>
+  <div class="button-list">
+     <input type="submit" value="Submit Anagram" name="anagram_button">
+  </div>
+</form> 
+
+<div class="output-list">{% for output in outputList %}
+	{{ output  }}<br>
+{% endfor %}
+</div>
+
+</body>
+</html>
+
