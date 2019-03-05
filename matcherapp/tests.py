@@ -38,6 +38,8 @@ class AnagramRulesTestCase(TestCase):
     # Of course we have to test the output directly.
     # This one, sadly, depends entirely on the dictionary.
     # See above for ideas to how to get around this problem.
+    # This test is a bit of a placeholder for more complex and detailed
+    # tests of this nature (ie. confirme expected final output.)
     def test_contents(self):
         expected_results = set(
             ["zzzz zzzz",
@@ -48,3 +50,11 @@ class AnagramRulesTestCase(TestCase):
         result = substring_anagram_search("zzzzz")
         # Sets, because aside from the second letter, ordering isn't specified.
         self.assertEqual(set(result), expected_results)
+
+    def test_placeholder(self):
+        # Other stuff that needs to be tested...
+        # - Dictionary loading function.
+        # - Individualized tests for other functions in util.py
+        # - Most of the things being tested above should test more variations.
+        # - Speed test, making sure queries can be handled in a reasonable time.
+        self.assertTrue(True)
