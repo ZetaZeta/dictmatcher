@@ -11,6 +11,7 @@ import itertools
 from suffixtree import SuffixQueryTree
 
 # Maximum number of items a matching can return.
+# TODO:  Possibly move this to settings file?
 MAX_RETURN_LENGTH = 10
 
 # TODO: Potential memory issue with multiword anagram cache getting too big.
@@ -20,6 +21,7 @@ ana_map = {}
 tree = None
 
 # Gets the text input from the given request.
+# TODO:  Possibly move hardcoded string here somewhere else?
 def get_text_input(request):
     if 'input_text' in request.POST:
         form = InputTextForm(request.POST)
@@ -29,6 +31,7 @@ def get_text_input(request):
 
 # Performs the appropriate matching based on the button pressed, and returns the results.
 # This makes it easier to add new matching methods later.
+# TODO:  Possibly move hardcoded string here somewhere else?
 def get_matching_by_button(request):
     input_text = get_text_input(request)
     if not input_text:
@@ -137,6 +140,7 @@ def all_multiword_anagrams(string, is_first_word = True):
 # Returns a value used for sorting strings by their second letter.
 # If the second letter is a space, the third is returned.
 # This assumes no doubles-spaced strings or strings ending with spaces.
+# (Which will alays be true with the given dictionary and current methods.)
 # A string of length < 2 sorts as 0.
 def second_letter_sort(string):
     if len(string) < 2:
